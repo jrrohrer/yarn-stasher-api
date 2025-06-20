@@ -1,0 +1,2 @@
+class ProjectYarn < ApplicationRecord
+end

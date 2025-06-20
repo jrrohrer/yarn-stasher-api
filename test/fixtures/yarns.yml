@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  brand_name: MyString
+  colorway: MyString
+  fiber: MyString
+  weight: MyString
+  yardage: 1
+  quantity: 1
+
+two:
+  brand_name: MyString
+  colorway: MyString
+  fiber: MyString
+  weight: MyString
+  yardage: 1
+  quantity: 1
