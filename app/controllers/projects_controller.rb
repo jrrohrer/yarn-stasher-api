@@ -1,65 +1,37 @@
 class ProjectsController < ApplicationController
-  include ActionController::Flash
   include ApplicationHelper
 
-  before_action :set_project, except: [ :index, :create, :new ]
+  before_action :set_project, except: [ :index, :create ]
 
   def index
     @projects = Project.all
-    @projects = @projects.order(:name)
-
+    @projects = @projects.order(set_order_from_params(params: params, default_attribute: 'title'))
     render json: @projects
   end
 
   def create
-    @project = Project.new(project_params)
-    if @project.save
-      flash[:notice] = "Project created successfully."
-      render json: @project, status: :created
-    else
-      flash.now[:alert] = "Error creating project."
-      render json: @project.errors, status: :unprocessable_entity
-    end
-  end
-
-  def new
-    @project = Project.new
-    render json: @project, status: :ok
-  end
-
-  def edit
-    @project = Project.find(params[:id])
-    render json: @project, status: :ok
-  rescue ActiveRecord::RecordNotFound
-    flash[:alert] = "Project not found."
-    redirect_to projects_path
+    @project = Project.create!(project_params)
+    render json: @project
   end
 
   def update
-    @project = Project.find(params[:id])
-    if @project.update(project_params)
-      flash[:notice] = "Project updated successfully."
-      render json: @project, status: :ok
-    else
-      flash.now[:alert] = "Error updating project."
-      render json: @project.errors, status: :unprocessable_entity
-    end
-  rescue ActiveRecord::RecordNotFound
-    flash[:alert] = "Project not found."
-    redirect_to projects_path
+    @project.update!(project_params)
+    render json: @project
   end
 
+  # to order the yarns a specific way, send object under yarns
   def show
+    @yarns = @project.yarns
+    @yarns = @yarns.includes(:projects) if @yarns.any?  # Eager load projects for yarns to avoid N+1 queries
+    @yarns = @yarns.order(set_order_from_params(params: params[:yarns], default_attribute: 'colorway'))
+    render json: {
+      project: @project,
+      yarns: @yarns
+    }, status: :ok
   end
 
   def destroy
-    if @project.destroy
-      flash[:notice] = "Project deleted successfully."
-      render json: { message: "Project deleted successfully." }, status: :ok
-    else
-      flash.now[:alert] = "Error deleting project."
-      render json: @project.errors, status: :unprocessable_entity
-    end
+    @project.destroy
   end
 
   private
@@ -70,17 +42,5 @@ class ProjectsController < ApplicationController
 
   def set_project
     @project = Project.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    flash[:alert] = "Project not found."
-    redirect_to projects_path
-  rescue StandardError => e
-    flash[:alert] = "An error occurred: #{e.message}"
-    redirect_to projects_path
-  rescue Exception => e
-    flash[:alert] = "An unexpected error occurred: #{e.message}"
-    redirect_to projects_path
-  rescue => e
-    flash[:alert] = "An error occurred: #{e.message}"
-    redirect_to projects_path
   end
 end

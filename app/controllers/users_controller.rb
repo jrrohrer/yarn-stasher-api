@@ -5,7 +5,8 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
-    @users = @users.order(:username)
+    sort_order = set_order_from_params(params: params, default_attribute: 'username')
+    @users = @users.order(sort_order)
 
     render json: @users
   end
@@ -48,18 +49,10 @@ class UsersController < ApplicationController
       yarns: @yarns,
       projects: @projects
     }, status: :ok
-  rescue => e
-    render json: { error: e.message }, status: :internal_server_error
   end
 
   def destroy
-    if @user.destroy
-      redirect_to users_path
-    else
-      redirect_to @user
-    end
-  rescue => e
-    render json: { error: e.message }, status: :internal_server_error
+    @user.destroy
   end
 
   private
@@ -69,9 +62,6 @@ class UsersController < ApplicationController
   end
 
   def set_user
-    debugger
     @user = User.find(params[:id])
-  rescue => e
-    render json: { error: e.message }, status: :internal_server_error
   end
 end

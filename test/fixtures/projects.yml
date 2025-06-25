@@ -4,8 +4,24 @@
 # model remove the "{}" from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-# column: value
+one:
+  title: "Baby Blanket"
+  pattern_name: "A blanket pattern"
+  pattern_source: "pattern.com"
+  designer: "sally the blanket master"
+  craft: "crochet"
+  tool_size: "35"
+  yardage: 2000
+  weight:
+  user_id: 1
+
+two:
+  title: "A Baby Blanket"
+  pattern_name: "Zany blanket pattern"
+  pattern_source: "pattern.com"
+  designer: "stan the blanket man"
+  craft: "crochet"
+  tool_size: "35"
+  yardage: 2000
+  weight:
+  user_id: 2
