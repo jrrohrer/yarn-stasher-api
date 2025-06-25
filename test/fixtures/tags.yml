@@ -1,0 +1,9 @@
+one: 
+  taggable_type: "Yarn"
+  taggable_id: 1
+  name: "alpaca"
+
+two: {}
+  taggable_type: "Yarn"
+  taggable_id: 2
+  name: "gift"
