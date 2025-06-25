@@ -48,8 +48,6 @@ class UsersController < ApplicationController
       yarns: @yarns,
       projects: @projects
     }, status: :ok
-  rescue => e
-    render json: { error: e.message }, status: :internal_server_error
   end
 
   def destroy
@@ -58,8 +56,6 @@ class UsersController < ApplicationController
     else
       redirect_to @user
     end
-  rescue => e
-    render json: { error: e.message }, status: :internal_server_error
   end
 
   private
@@ -71,7 +67,5 @@ class UsersController < ApplicationController
   def set_user
     debugger
     @user = User.find(params[:id])
-  rescue => e
-    render json: { error: e.message }, status: :internal_server_error
   end
 end
