@@ -1,52 +1,37 @@
 class ProjectsController < ApplicationController
   include ApplicationHelper
 
-  before_action :set_project, except: [ :index, :create, :new ]
+  before_action :set_project, except: [ :index, :create ]
 
   def index
     @projects = Project.all
-    @projects = @projects.order(:name)
-
+    @projects = @projects.order(set_order_from_params(params: params, default_attribute: 'title'))
     render json: @projects
   end
 
   def create
-    @project = Project.new(project_params)
-    if @project.save
-      render json: @project, status: :created
-    else
-      render json: @project.errors, status: :unprocessable_entity
-    end
-  end
-
-  def new
-    @project = Project.new
-    render json: @project, status: :ok
-  end
-
-  def edit
-    @project = Project.find(params[:id])
-    render json: @project, status: :ok
+    @project = Project.create!(project_params)
+    render json: @project
   end
 
   def update
-    @project = Project.find(params[:id])
-    if @project.update(project_params)
-      render json: @project, status: :ok
-    else
-      render json: @project.errors, status: :unprocessable_entity
-    end
+    @project.update!(project_params)
+    render json: @project
   end
 
+  # to order the yarns a specific way, send object under yarns
   def show
+    @yarns = @project.yarns
+    @yarns = @yarns.includes(:projects) if @yarns.any?  # Eager load projects for yarns to avoid N+1 queries
+    @yarns = @yarns.order(set_order_from_params(params: params[:yarns], default_attribute: 'colorway'))
+    render json: {
+      project: @project,
+      yarns: @yarns
+    }, status: :ok
   end
 
   def destroy
-    if @project.destroy
-      render json: { message: "Project deleted successfully." }, status: :ok
-    else
-      render json: @project.errors, status: :unprocessable_entity
-    end
+    @project.destroy
   end
 
   private

@@ -6,7 +6,7 @@
 #
 one:
   title: "Baby Blanket"
-  pattern_name: "blanket pattern"
+  pattern_name: "A blanket pattern"
   pattern_source: "pattern.com"
   designer: "sally the blanket master"
   craft: "crochet"
@@ -16,10 +16,10 @@ one:
   user_id: 1
 
 two:
-  title: "Baby Blanket"
-  pattern_name: "blanket pattern"
+  title: "A Baby Blanket"
+  pattern_name: "Zany blanket pattern"
   pattern_source: "pattern.com"
-  designer: "sally the blanket master"
+  designer: "stan the blanket man"
   craft: "crochet"
   tool_size: "35"
   yardage: 2000
