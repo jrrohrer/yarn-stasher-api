@@ -33,7 +33,11 @@ gem "thruster", require: false
 # gem "image_processing", "~> 1.2"
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin Ajax possible
-# gem "rack-cors"
+gem "rack-cors"
+
+gem "devise"
+gem "devise-jwt"
+gem "jsonapi-serializer"
 
 gem "api_error_handler"
 

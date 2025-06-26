@@ -41,3 +41,8 @@ Things you may want to cover:
 ### Comments
 
 - [] Add comments lol
+
+## REMINDERS
+
+- When ready to deploy, update cors.rb to include an origin that matches the domain for the deployed client(s)
+- For local development, this API uses port 4000, so that you can run your front end on 3000

@@ -5,12 +5,16 @@
 
 # Read more: https://github.com/cyu/rack-cors
 
-# Rails.application.config.middleware.insert_before 0, Rack::Cors do
-#   allow do
-#     origins "example.com"
-#
-#     resource "*",
-#       headers: :any,
-#       methods: [:get, :post, :put, :patch, :delete, :options, :head]
-#   end
-# end
+Rails.application.config.middleware.insert_before 0, Rack::Cors do
+  allow do
+    origins "http://localhost:3000" # Adjust the origins as needed
+    # You can specify multiple origins or use '*' for all origins, but be cautious with '*
+
+    resource(
+      "*",
+      headers: :any,
+      expose: [ "access-token", "expiry", "token-type", "Authorization" ],
+      methods: [ :get, :post, :put, :patch, :delete, :options, :show ]
+    )
+  end
+end
